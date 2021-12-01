@@ -1,0 +1,6 @@
+rootProject.name = 'eventuator'
+include 'service:product-service'
+findProject(':service:product-service')?.name = 'product-service'
+include 'service:discovery-service'
+findProject(':service:discovery-service')?.name = 'discovery-service'
+

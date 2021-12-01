@@ -1,0 +1,15 @@
+allprojects {
+    apply plugin: 'java'
+    group = 'com.cloud'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = JavaVersion.VERSION_17
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+
+
+
+
