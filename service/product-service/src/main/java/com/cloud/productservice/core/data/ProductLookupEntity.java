@@ -1,24 +1,22 @@
 package com.cloud.productservice.core.data;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.UUID;
 
-
+@Data
 @Entity
-@Getter
-@Setter
-@Table(name = "products")
-@Builder
-@NoArgsConstructor
+@Table(name = "productlookup")
 @AllArgsConstructor
-public class ProductEntity implements Serializable {
+@NoArgsConstructor
+public class ProductLookupEntity implements Serializable {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -30,11 +28,8 @@ public class ProductEntity implements Serializable {
     @ColumnDefault("random_uuid()")
     @Type(type = "uuid-char")
     private UUID productId;
-
     @Column(unique = true)
     private String title;
-    private BigDecimal price;
-    private Integer quantity;
 
 
 }
