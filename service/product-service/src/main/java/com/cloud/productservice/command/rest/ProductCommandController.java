@@ -27,12 +27,13 @@ public class ProductCommandController {
                 .build();
 
         String returnValue;
+        returnValue = commandGateway.sendAndWait(productCommand).toString();
 
-        try {
-            returnValue = commandGateway.sendAndWait(productCommand).toString();
-        }catch (Exception ex) {
-            returnValue = ex.getLocalizedMessage();
-        }
+//        try {
+//            returnValue = commandGateway.sendAndWait(productCommand).toString();
+//        }catch (Exception ex) {
+//            returnValue = ex.getLocalizedMessage();
+//        }
         return returnValue;
     }
 
