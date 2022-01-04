@@ -25,7 +25,7 @@ public class ProductAggregate {
     }
 
     @CommandHandler
-    public ProductAggregate(CreateProductCommand productCommand) {
+    public ProductAggregate(CreateProductCommand productCommand) throws Exception {
         //validate product command
         if (productCommand.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Price cannot be less or equal zero");
@@ -42,6 +42,8 @@ public class ProductAggregate {
                 .build();
 
         AggregateLifecycle.apply(productCreatedEvent);
+
+        if(true) throw  new Exception("Error in command handler method for testing");
     }
 
     //update aggregate
