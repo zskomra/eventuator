@@ -5,6 +5,7 @@ import com.cloud.productservice.core.data.ProductRepository;
 import com.cloud.productservice.core.events.ProductCreatedEvent;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,6 +18,16 @@ public class ProductProjection {
         this.productRepository = productRepository;
     }
 
+    @ExceptionHandler(resultType = Exception.class)
+    public void handle(Exception exception) {
+        //log error message
+    }
+
+    @ExceptionHandler(resultType = IllegalArgumentException.class)
+    public void handle(IllegalArgumentException exception) {
+        //log error message
+    }
+
     @EventHandler
     public void on(ProductCreatedEvent event) {
         ProductEntity productEntity = ProductEntity.builder()
@@ -25,7 +36,12 @@ public class ProductProjection {
                 .quantity(event.getQuantity())
                 .title(event.getTitle())
                 .build();
-        productRepository.save(productEntity);
+        try {
+            productRepository.save(productEntity);
+        }
+        catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+        }
 
     }
 }
