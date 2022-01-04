@@ -1,7 +1,9 @@
 package com.cloud.productservice;
 
 import com.cloud.productservice.command.interceptors.CreateProductCommandInterceptor;
+import com.cloud.productservice.core.errorhandling.ProductServiceEventsErrorHandler;
 import org.axonframework.commandhandling.CommandBus;
+import org.axonframework.config.EventProcessingConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,8 +19,19 @@ public class ProductServiceApplication {
     }
 
     @Autowired
-    public void registerCreateProductCommandInterceptor(ApplicationContext context, CommandBus commandBus){
+    public void registerCreateProductCommandInterceptor(ApplicationContext context, CommandBus commandBus) {
         commandBus.registerDispatchInterceptor(context.getBean(CreateProductCommandInterceptor.class));
+    }
+
+    @Autowired
+    public void configure(EventProcessingConfigurer configurer) {
+        configurer.registerListenerInvocationErrorHandler("product-group", conf ->
+                new ProductServiceEventsErrorHandler());
+
+        /* for default Error Handler
+        configurer.registerListenerInvocationErrorHandler("product-group", conf ->
+                PropagatingErrorHandler.instance()));
+         */
     }
 
 }

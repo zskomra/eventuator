@@ -19,8 +19,8 @@ public class ProductProjection {
     }
 
     @ExceptionHandler(resultType = Exception.class)
-    public void handle(Exception exception) {
-        //log error message
+    public void handle(Exception exception) throws Exception {
+        throw exception;
     }
 
     @ExceptionHandler(resultType = IllegalArgumentException.class)
@@ -29,7 +29,7 @@ public class ProductProjection {
     }
 
     @EventHandler
-    public void on(ProductCreatedEvent event) {
+    public void on(ProductCreatedEvent event) throws Exception {
         ProductEntity productEntity = ProductEntity.builder()
                 .productId(event.getProductId())
                 .price(event.getPrice())
@@ -42,6 +42,8 @@ public class ProductProjection {
         catch (IllegalArgumentException ex) {
             ex.printStackTrace();
         }
+
+        if(true) throw  new Exception("Forcing exception in the Event Handler class");
 
     }
 }
