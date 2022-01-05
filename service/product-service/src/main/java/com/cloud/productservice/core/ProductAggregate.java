@@ -3,7 +3,7 @@ package com.cloud.productservice.core;
 import com.cloud.core.commands.ReserveProductCommand;
 import com.cloud.productservice.command.CreateProductCommand;
 import com.cloud.productservice.core.events.ProductCreatedEvent;
-import com.cloud.productservice.core.events.ProductReservedEvent;
+import com.cloud.core.events.ProductReservedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;

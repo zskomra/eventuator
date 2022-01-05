@@ -1,4 +1,4 @@
-package com.cloud.productservice.core.events;
+package com.cloud.core.events;
 
 import lombok.Builder;
 import lombok.Data;

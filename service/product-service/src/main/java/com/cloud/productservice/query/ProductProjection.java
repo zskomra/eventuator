@@ -3,7 +3,7 @@ package com.cloud.productservice.query;
 import com.cloud.productservice.core.data.ProductEntity;
 import com.cloud.productservice.core.data.ProductRepository;
 import com.cloud.productservice.core.events.ProductCreatedEvent;
-import com.cloud.productservice.core.events.ProductReservedEvent;
+import com.cloud.core.events.ProductReservedEvent;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;

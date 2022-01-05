@@ -1,6 +1,7 @@
 package com.cloud.orderservice.saga;
 
 import com.cloud.core.commands.ReserveProductCommand;
+import com.cloud.core.events.ProductReservedEvent;
 import com.cloud.orderservice.core.events.OrderCreatedEvent;
 import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.commandhandling.CommandMessage;
@@ -37,6 +38,11 @@ public class OrderSaga {
                 }
             }
         });
+    }
+
+    @SagaEventHandler(associationProperty = "orderId")
+    public void handle(ProductReservedEvent productReservedEvent) {
+
     }
 
 }
