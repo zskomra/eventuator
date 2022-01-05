@@ -1,5 +1,6 @@
 package com.cloud.productservice.core;
 
+import com.cloud.core.commands.ReserveProductCommand;
 import com.cloud.productservice.command.CreateProductCommand;
 import com.cloud.productservice.core.events.ProductCreatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
@@ -42,6 +43,13 @@ public class ProductAggregate {
                 .build();
 
         AggregateLifecycle.apply(productCreatedEvent);
+    }
+
+    @CommandHandler
+    public void handle(ReserveProductCommand reserveProductCommand){
+        if(quantity < reserveProductCommand.getQuantity()) {
+            throw new IllegalArgumentException("Insufficient number of items in stock");
+        }
     }
 
     //update aggregate
