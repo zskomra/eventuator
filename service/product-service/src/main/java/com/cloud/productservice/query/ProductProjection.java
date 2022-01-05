@@ -3,6 +3,7 @@ package com.cloud.productservice.query;
 import com.cloud.productservice.core.data.ProductEntity;
 import com.cloud.productservice.core.data.ProductRepository;
 import com.cloud.productservice.core.events.ProductCreatedEvent;
+import com.cloud.productservice.core.events.ProductReservedEvent;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
@@ -42,8 +43,12 @@ public class ProductProjection {
         catch (IllegalArgumentException ex) {
             ex.printStackTrace();
         }
+    }
 
-        if(true) throw  new Exception("Forcing exception in the Event Handler class");
-
+    @EventHandler
+    public void on(ProductReservedEvent event) {
+        ProductEntity productEntity = productRepository.findByProductId(event.getProductId());
+        productEntity.setQuantity(productEntity.getQuantity() - event.getQuantity());
+        productRepository.save(productEntity);
     }
 }
