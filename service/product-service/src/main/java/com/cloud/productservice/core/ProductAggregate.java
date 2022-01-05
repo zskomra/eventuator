@@ -3,6 +3,7 @@ package com.cloud.productservice.core;
 import com.cloud.core.commands.ReserveProductCommand;
 import com.cloud.productservice.command.CreateProductCommand;
 import com.cloud.productservice.core.events.ProductCreatedEvent;
+import com.cloud.productservice.core.events.ProductReservedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -50,6 +51,12 @@ public class ProductAggregate {
         if(quantity < reserveProductCommand.getQuantity()) {
             throw new IllegalArgumentException("Insufficient number of items in stock");
         }
+        ProductReservedEvent productReservedEvent = ProductReservedEvent.builder()
+                .orderId(reserveProductCommand.getOrderId())
+                .userId(reserveProductCommand.getUserId())
+                .productId(reserveProductCommand.getProductId())
+                .quantity(reserveProductCommand.getQuantity())
+                .build();
     }
 
     //update aggregate
@@ -59,5 +66,10 @@ public class ProductAggregate {
         this.price = productCreatedEvent.getPrice();
         this.quantity = productCreatedEvent.getQuantity();
         this.title = productCreatedEvent.getTitle();
+    }
+
+    @EventSourcingHandler
+    public void on(ProductReservedEvent productReservedEvent){
+        this.quantity -= productReservedEvent.getQuantity();
     }
 }
